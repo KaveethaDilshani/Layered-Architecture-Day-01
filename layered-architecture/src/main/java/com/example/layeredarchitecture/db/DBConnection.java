@@ -16,7 +16,11 @@ public class DBConnection {
             "1234"
     );
     }
-    public static DBConnection getInstance()throws SQLException{
+    public static DBConnection getDbConnection() throws SQLException{
         return (null==dbConnection)?dbConnection=new DBConnection():dbConnection;
+    }
+
+    public Connection getConnection() {
+        return connection;
     }
 }

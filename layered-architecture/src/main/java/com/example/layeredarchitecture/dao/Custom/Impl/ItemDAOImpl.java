@@ -1,6 +1,7 @@
 package com.example.layeredarchitecture.dao.Custom.Impl;
 import com.example.layeredarchitecture.dao.Custom.ItemDAO;
 import com.example.layeredarchitecture.dao.SQLUtil;
+import com.example.layeredarchitecture.model.CustomerDTO;
 import com.example.layeredarchitecture.model.ItemDTO;
 import com.example.layeredarchitecture.model.OrderDetailDTO;
 
@@ -68,6 +69,21 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
+    public ArrayList<ItemDTO> getAll() throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    @Override
+    public boolean save(CustomerDTO dto) throws SQLException, ClassNotFoundException {
+        return false;
+    }
+
+    @Override
+    public boolean update(CustomerDTO dto) throws SQLException, ClassNotFoundException {
+        return false;
+    }
+
+    @Override
     public boolean delete(String code) throws SQLException, ClassNotFoundException {
         /*Connection connection = DBConnection.getDbConnection().getConnection();
         PreparedStatement pstm = connection.prepareStatement("DELETE FROM Item WHERE code=?");
@@ -75,6 +91,11 @@ public class ItemDAOImpl implements ItemDAO {
         pstm.setString(1, code);
         pstm.executeUpdate();*/
         return SQLUtil.execute("DELETE FROM Item WHERE code=?");
+    }
+
+    @Override
+    public boolean exist(String id) throws SQLException, ClassNotFoundException {
+        return false;
     }
 
     @Override
