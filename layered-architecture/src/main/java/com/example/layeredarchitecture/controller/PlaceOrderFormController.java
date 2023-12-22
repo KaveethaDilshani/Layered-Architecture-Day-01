@@ -1,13 +1,12 @@
 package com.example.layeredarchitecture.controller;
 
-import com.example.layeredarchitecture.dao.CustomerDAOImpl;
-import com.example.layeredarchitecture.dao.ItemDAOImpl;
-import com.example.layeredarchitecture.dao.PlaceOrderDAOImpl;
+import com.example.layeredarchitecture.dao.Custom.Impl.CustomerDAOImpl;
+import com.example.layeredarchitecture.dao.Custom.Impl.ItemDAOImpl;
+import com.example.layeredarchitecture.dao.Custom.Impl.OrderDAOImpl;
 import com.example.layeredarchitecture.db.DBConnection;
 import com.example.layeredarchitecture.model.CustomerDTO;
 import com.example.layeredarchitecture.model.ItemDTO;
 import com.example.layeredarchitecture.model.OrderDetailDTO;
-import com.example.layeredarchitecture.view.tdm.CustomerTM;
 import com.example.layeredarchitecture.view.tdm.OrderDetailTM;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -31,7 +30,6 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -56,7 +54,7 @@ public class PlaceOrderFormController {
     public Label lblTotal;
     private String orderId;
 
-    private static final PlaceOrderDAOImpl placeOrderDAO = new PlaceOrderDAOImpl();
+    private static final OrderDAOImpl placeOrderDAO = new OrderDAOImpl();
 
     private CustomerDAOImpl customerDAO = new CustomerDAOImpl();
 
@@ -196,7 +194,7 @@ public class PlaceOrderFormController {
 
     public String generateNewOrderId() {
         try {
-            return placeOrderDAO.generateID();
+            return placeOrderDAO.generateNextOrderID();
 
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Failed to generate a new order id").show();
@@ -209,7 +207,7 @@ public class PlaceOrderFormController {
     private void loadAllCustomerIds() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<CustomerDTO> customerDTOS = customerDAO.getAllCustomer();
+            List<CustomerDTO> customerDTOS = customerDAO.getAllCustomers();
             for (CustomerDTO customerDTO : customerDTOS){
                 obList.add(customerDTO.getId());
             }
@@ -224,7 +222,7 @@ public class PlaceOrderFormController {
     private void loadAllItemCodes() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<ItemDTO> itemDTOS = itemDAO.getAllItem();
+            List<ItemDTO> itemDTOS = itemDAO.getAllItems();
             for (ItemDTO itemDTO : itemDTOS){
                 obList.add(itemDTO.getCode());
             }
@@ -392,7 +390,7 @@ public class PlaceOrderFormController {
 
     public ItemDTO findItem(String code) {
         try {
-            return placeOrderDAO.findItem(code);
+            return placeOrderDAO.getItems(code);
             /*Connection connection = DBConnection.getDbConnection().getConnection();
             PreparedStatement pstm = connection.prepareStatement("SELECT * FROM Item WHERE code=?");
             pstm.setString(1, code);

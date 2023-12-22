@@ -1,6 +1,6 @@
 package com.example.layeredarchitecture.controller;
 
-import com.example.layeredarchitecture.dao.CustomerDAOImpl;
+import com.example.layeredarchitecture.dao.Custom.Impl.CustomerDAOImpl;
 import com.example.layeredarchitecture.db.DBConnection;
 import com.example.layeredarchitecture.model.CustomerDTO;
 import com.example.layeredarchitecture.view.tdm.CustomerTM;
@@ -75,7 +75,7 @@ public class ManageCustomersFormController {
                 tblCustomers.getItems().add(new CustomerTM(rst.getString("id"), rst.getString("name"), rst.getString("address")));
             }*/
             CustomerDAOImpl customerDAO = new CustomerDAOImpl();
-            ArrayList<CustomerDTO> customerList = customerDAO.getAllCustomer();
+            ArrayList<CustomerDTO> customerList = customerDAO.getAllCustomers();
             for (CustomerDTO customerDTO : customerList) {
                 tblCustomers.getItems().add(new CustomerTM(customerDTO.getId(), customerDTO.getName(), customerDTO.getAddress()));
             }
